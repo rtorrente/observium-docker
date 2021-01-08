@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  observiumdb:
+       image: mariadb:latest
+       environment:
+         - MYSQL_ROOT_PASSWORD=passw0rd
+         - MYSQL_USER=observium
+         - MYSQL_PASSWORD=passw0rd
+         - MYSQL_DATABASE=observium
+         - TZ=Europe/Paris
+       volumes:
+         - ./data:/var/lib/mysql
+       networks:
+         - observium-network
+       restart: always
+
+  observiumapp:
+       image: rtorrente/observium-docker
+       environment:
+         - OBSERVIUM_ADMIN_USER=admin
+         - OBSERVIUM_ADMIN_PASS=passw0rd
+         - OBSERVIUM_DB_HOST=observiumdb
+         - OBSERVIUM_DB_NAME=observium
+         - OBSERVIUM_DB_USER=observium 
+         - OBSERVIUM_DB_PASS=passw0rd
+         - OBSERVIUM_BASE_URL=http://observium.example.com:8888
+         - TZ=Europe/Paris
+       volumes:
+         - ./logs:/opt/observium/logs
+         - ./rrd:/opt/observium/rrd
+       networks:
+         - observium-network
+       ports:
+         - "8888:80"
+       restart: always
+       depends_on:
+         - observiumdb
+
+networks:
+  observium-network:
+      driver: bridge
