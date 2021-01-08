@@ -16,7 +16,7 @@ services:
        restart: always
 
   observiumapp:
-       image: rtorrente/observium-docker
+       image: rtorrente65/observium-docker
        environment:
          - OBSERVIUM_ADMIN_USER=admin
          - OBSERVIUM_ADMIN_PASS=passw0rd
