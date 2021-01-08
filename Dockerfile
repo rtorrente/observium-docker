@@ -65,9 +65,11 @@ RUN apt-get clean && \
 RUN locale-gen en_US.UTF-8
 
 # install observium package
+
+COPY observium-community-latest.tar.gz /opt
+
 RUN mkdir -p /opt/observium /opt/observium/logs /opt/observium/rrd && \
     cd /opt && \
-    wget http://www.observium.org/observium-community-latest.tar.gz && \
     tar zxvf observium-community-latest.tar.gz && \
     rm -f observium-community-latest.tar.gz
 
